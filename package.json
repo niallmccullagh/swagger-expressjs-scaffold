@@ -25,13 +25,15 @@
     "istanbul": "^0.4.5",
     "jasmine": "^2.5.3",
     "nodemon": "^1.11.0",
-    "supertest": "^2.0.1"
+    "supertest": "^2.0.1",
+    "nsp": "^2.6.2"
   },
   "scripts": {
     "start": "npm run lint && nodemon app.js",
     "test": "npm run lint && istanbul cover --include-all-sources --x '**/integration-test/** **/spec/** app.js' jasmine",
     "integration-test": "npm run lint && jasmine JASMINE_CONFIG_PATH=integration-test/support/jasmine.json",
-    "lint": "eslint api/**/*.js spec/**/*.js integration-test/**/*.js app.js"
+    "lint": "eslint api/**/*.js spec/**/*.js integration-test/**/*.js app.js",
+    "nsp": "nsp check"
   },
   "repository": {
     "type": "git",

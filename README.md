@@ -1,5 +1,7 @@
 # Swagger ExpressJS Scaffold
 
+![](https://nodesecurity.io/orgs/niallmccullagh/projects/fa45839d-f7a1-4cab-aeed-c12b17dac2e3/badge)
+
 This is an API scaffold which provides a design first approach to API development built on 
 Swagger and ExpressJS.
 
@@ -35,10 +37,9 @@ curl localhost:10010/v1/status
 yarn test
 ```
 
-
 ### Run integration tests
 ```bash
-yarn run integration-test
+yarn integration-test
 ```
 
 ### Linting the code
@@ -52,6 +53,14 @@ suppressing the rule understand its purpose.
 ```bash
 yarn lint
 ```
+
+### Run vulnerabilities check
+Use [nsp](nodesecurity.io) to run a vulnerabilities check on the projects dependencies.
+
+```bash
+yarn nsp
+```
+
 
 ### With Docker
 You can alternatively run it all in docker by following these [instructions](docs/running_in_docker.md)
