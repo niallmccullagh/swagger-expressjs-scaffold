@@ -1,0 +1,74 @@
+version: '2'
+
+networks:
+  main:
+
+services:
+  api:
+    image: node:7.4.0-alpine
+    volumes:
+      - ./:/app
+    working_dir: /app
+    networks:
+      - main
+    ports:
+      - "5858:5858"
+      - "10010:10010"
+    environment:
+      NODE_ENV: development
+      PORT: "10010"
+    command:
+      /bin/ash -c
+        "npm install -g yarn &&
+        npm install -g swagger &&
+        yarn &&
+        swagger project start --debug"
+
+  mock:
+    image: node:7.4.0-alpine
+    volumes:
+      - ./:/app
+    working_dir: /app
+    networks:
+      - main
+    ports:
+      - "10010:10010"
+    environment:
+      NODE_ENV: development
+      PORT: "10010"
+    command:
+      /bin/ash -c
+        "npm install -g yarn &&
+         npm install -g swagger &&
+         yarn &&
+         swagger project start --mock"
+
+  test:
+    image: node:7.4.0-alpine
+    networks:
+      - main
+    volumes:
+      - ./:/app
+    working_dir: /app
+    environment:
+      NODE_ENV: development
+      PORT: "10010"
+    command: /bin/ash -c
+      "npm install -g yarn &&
+       npm install -g swagger &&
+       yarn &&
+       yarn run test"
+
+  editor:
+    image: node:7.4.0-alpine
+    volumes:
+      - ./:/app
+    working_dir: /app
+    ports:
+      - "8080:8080"
+    command:
+      /bin/ash -c
+        "npm install -g yarn &&
+         npm install -g swagger &&
+         yarn &&
+         swagger project edit --host 0.0.0.0 --port 8080 --silent"

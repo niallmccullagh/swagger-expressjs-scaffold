@@ -1,0 +1,46 @@
+swagger: "2.0"
+info:
+  version: "0.1.0"
+  title: API Bootstrap
+  description: An API bootstrap project which provides a design first approach to API development built on Swagger and ExpressJS
+host: localhost:10010
+basePath: /v1
+#
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /status:
+    x-swagger-router-controller: status
+    get:
+      description: Returns details about the status of the API
+      operationId: status
+      responses:
+        200:
+          description: API is available
+          schema:
+            $ref: "#/definitions/Status"
+        500:
+          description: API is unavailable
+          schema:
+            $ref: "#/definitions/Status"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/Status"
+
+  /swagger:
+    x-swagger-pipe: swagger_raw
+
+definitions:
+  Status:
+    type: object
+    properties:
+      status:
+        type: string
+        description: The status of the API
+        enum: ["OK", "WARN", "FATAL"]
