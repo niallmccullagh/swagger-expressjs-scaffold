@@ -1,0 +1,40 @@
+{
+  "name": "api-scaffold",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An API scaffold which provides a design first approach to API development built on Swagger and ExpressJS.",
+  "keywords": [],
+  "author": "Niall McCullagh",
+  "license": "Unlicense",
+  "main": "app.js",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.16.0",
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "express-validator": "^3.1.2",
+    "log4js": "^1.1.0",
+    "moment": "^2.17.1",
+    "swagger-express-mw": "^0.7.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.13.0",
+    "eslint-config-airbnb-base": "^11.0.1",
+    "eslint-plugin-import": "^2.2.0",
+    "istanbul": "^0.4.5",
+    "jasmine": "^2.5.3",
+    "nodemon": "^1.11.0",
+    "supertest": "^2.0.1"
+  },
+  "scripts": {
+    "start": "npm run lint && nodemon app.js",
+    "test": "npm run lint && istanbul cover --include-all-sources --x '**/integration-test/** **/spec/** app.js' jasmine",
+    "integration-test": "npm run lint && jasmine JASMINE_CONFIG_PATH=integration-test/support/jasmine.json",
+    "lint": "eslint api/**/*.js spec/**/*.js integration-test/**/*.js app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/myreceipts/api"
+  }
+}
