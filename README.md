@@ -55,7 +55,7 @@ yarn lint
 ```
 
 ### Run vulnerabilities check
-Use [nsp](nodesecurity.io) to run a vulnerabilities check on the projects dependencies.
+Use [nsp](https://nodesecurity.io) to run a vulnerabilities check on the projects dependencies.
 
 ```bash
 yarn nsp
