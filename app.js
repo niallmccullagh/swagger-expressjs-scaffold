@@ -3,8 +3,8 @@ const app = require('express')();
 const log4js = require('log4js');
 const bodyParser = require('body-parser');
 const errorHandler = require('./api/middleware/http500ErrorHandler');
-const validator = require('express-validator');
-const cors = require('cors');
+
+const appRoot = __dirname;
 
 log4js.configure({
   appenders: [
@@ -13,32 +13,22 @@ log4js.configure({
 });
 
 const logger = log4js.getLogger('app');
-logger.setLevel('DEBUG');
+logger.setLevel('INFO');
 app.use(log4js.connectLogger(logger, { level: log4js.levels.INFO }));
-
-app.use(cors());
-app.options('*', cors());         // Enable pre-flight across all routes
 
 app.use(bodyParser.json());
 
-app.use(validator());
-
-const config = {
-  appRoot: __dirname, // required config
-  configDir: 'swagger/config',
-};
-
-SwaggerExpress.create(config, (err, swaggerExpress) => {
+SwaggerExpress.create({ appRoot }, (err, swaggerExpress) => {
   if (err) {
     throw err;
   }
 
-    // install middleware
+  // install middleware
   swaggerExpress.register(app);
 
   app.use(errorHandler);
 
-    // Log any responses that violate the response schema
+  // Log any responses that violate the response schema
   swaggerExpress.runner.on(
     'responseValidationError',
     validationResponse =>
