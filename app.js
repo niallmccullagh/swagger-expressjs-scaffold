@@ -2,6 +2,7 @@ const SwaggerExpress = require('swagger-express-mw');
 const app = require('express')();
 const log4js = require('log4js');
 const bodyParser = require('body-parser');
+const errorHandler = require('./api/middleware/http500ErrorHandler');
 const validator = require('express-validator');
 const cors = require('cors');
 
@@ -26,27 +27,6 @@ const config = {
   appRoot: __dirname, // required config
   configDir: 'swagger/config',
 };
-
-function errorHandler (err, req, res, next) { // eslint-disable-line
-  let error = err;
-
-  if (typeof err !== 'object') {
-    // If the object is not an Error, create a representation that appears to be
-    error = {
-      message: String(err), // Coerce to string
-    };
-  } else {
-    // Ensure that err.message is enumerable (It is not by default)
-    Object.defineProperty(err, 'message', { enumerable: true });
-  }
-
-  const httpStatusCode = error.status || error.statusCode || err.code || 500;
-
-  // Return a JSON representation of #/definitions/ErrorResponse
-  res.status(httpStatusCode);
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify(error));
-}
 
 SwaggerExpress.create(config, (err, swaggerExpress) => {
   if (err) {
