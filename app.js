@@ -4,6 +4,7 @@ const log4js = require('log4js');
 const bodyParser = require('body-parser');
 const errorHandler = require('./api/middleware/http500ErrorHandler');
 const statusController = require('./api/controllers/status');
+const helmet = require('helmet');
 
 const appRoot = __dirname;
 
@@ -18,6 +19,7 @@ logger.setLevel('INFO');
 app.use(log4js.connectLogger(logger, { level: log4js.levels.INFO }));
 
 app.use(bodyParser.json());
+app.use(helmet());
 
 SwaggerExpress.create({ appRoot }, (err, swaggerExpress) => {
   if (err) {
