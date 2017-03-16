@@ -1,5 +1,8 @@
 function getStatus() {
-  return { status: 'OK' };
+  return {
+    status: 'OK',
+    version: 'v1',
+  };
 }
 
 module.exports = {

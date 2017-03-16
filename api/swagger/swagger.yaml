@@ -39,8 +39,12 @@ paths:
 definitions:
   Status:
     type: object
+    additionalProperties: false
     properties:
       status:
         type: string
         description: The status of the API
         enum: ["OK", "WARN", "FATAL"]
+      version:
+        type: string
+        description: API version that this service is serving
