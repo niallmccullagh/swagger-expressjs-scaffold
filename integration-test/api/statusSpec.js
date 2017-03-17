@@ -12,7 +12,7 @@ describe('Status Endpoint', () => {
     request(server)
       .get(`${version}/status`)
       .set('Accept', 'application/json')
-      .expect(200, { status: 'OK' })
+      .expect(200, { status: 'OK', version: 'v1' })
       .end(finishTest(done));
   });
 });

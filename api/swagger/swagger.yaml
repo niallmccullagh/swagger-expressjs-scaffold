@@ -27,11 +27,11 @@ paths:
         500:
           description: API is unavailable
           schema:
-            $ref: "#/definitions/Status"
+            $ref: "#/definitions/Error"
         default:
           description: Error
           schema:
-            $ref: "#/definitions/Status"
+            $ref: "#/definitions/Error"
 
   /swagger:
     x-swagger-pipe: swagger_raw
@@ -39,7 +39,6 @@ paths:
 definitions:
   Status:
     type: object
-    additionalProperties: false
     properties:
       status:
         type: string
@@ -48,3 +47,10 @@ definitions:
       version:
         type: string
         description: API version that this service is serving
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Error message
+

@@ -2,7 +2,7 @@ const SwaggerExpress = require('swagger-express-mw');
 const app = require('express')();
 const log4js = require('log4js');
 const bodyParser = require('body-parser');
-const errorHandler = require('./api/middleware/http500ErrorHandler');
+const { apiErrorHandler, notFoundErrorHandler } = require('./api/middleware/errorHandlers');
 const statusController = require('./api/controllers/status');
 const helmet = require('helmet');
 
@@ -16,6 +16,7 @@ log4js.configure({
 
 const logger = log4js.getLogger('app');
 logger.setLevel('INFO');
+
 app.use(log4js.connectLogger(logger, { level: log4js.levels.INFO }));
 
 app.use(bodyParser.json());
@@ -29,14 +30,15 @@ SwaggerExpress.create({ appRoot }, (err, swaggerExpress) => {
   // install middleware
   swaggerExpress.register(app);
 
-  app.use(errorHandler);
-
   // Log any responses that violate the response schema
   swaggerExpress.runner.on(
     'responseValidationError',
     validationResponse =>
       logger.error(JSON.stringify(validationResponse.errors)) // eslint-disable-line
   );
+
+  app.use(apiErrorHandler);
+  app.use(notFoundErrorHandler);
 
   const port = process.env.PORT || 10010;
   app.listen(port);
@@ -49,7 +51,6 @@ SwaggerExpress.create({ appRoot }, (err, swaggerExpress) => {
     logger.info(`\ntry this:\ncurl http://localhost:${port}/status`);
   }
 });
-
 
 if (process.env.swagger_mockMode || process.env.TEST_MODE === 'y') {
   logger.info('Running in mock mode');
